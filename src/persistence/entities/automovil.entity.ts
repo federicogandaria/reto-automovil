@@ -1,6 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { ClienteEntity } from './cliente.entity';
-import { VendedorEntity } from './vendedor.entity';
+import { ClienteEntity, VendedorEntity } from '.';
 
 export class AutomovilEntity {
   id = uuid();
