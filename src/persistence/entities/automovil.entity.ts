@@ -8,4 +8,5 @@ export class AutomovilEntity {
   año: number;
   vendedor: VendedorEntity;
   cliente?: ClienteEntity;
+  auto?: AutomovilEntity;
 }
