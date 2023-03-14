@@ -1,43 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AutomovilEntity, VendedorEntity } from 'src/persistence/entities';
+import { VendedorEntity } from 'src/persistence/entities';
+import { BaseRepository } from 'src/persistence/repositories/base/base.repository';
 import { v4 as uuid } from 'uuid';
-import { Vendedor } from '../interface/vendedor.interface';
+import { IVendedor } from '../interface/vendedor.interface';
 
 @Injectable()
-export class VendedorService {
-  private readonly vendedores: Vendedor[] = [];
-  private readonly ventas: AutomovilEntity[] = [];
-
-  createVendedor(vendedorEntity: VendedorEntity): Vendedor {
+export class VendedorService extends BaseRepository<IVendedor> {
+  createVendedor(vendedorEntity: VendedorEntity): IVendedor {
     const id = uuid();
     const autos = vendedorEntity.autos.map((auto) => ({
       ...auto,
       id: uuid(),
       idVendedor: id, // guardar el id del vendedor que vendió el automóvil
     }));
-    const vendedor: Vendedor = {
+    const vendedor: IVendedor = {
       id,
       nombre: vendedorEntity.nombre,
       autos,
     };
-    this.vendedores.push(vendedor);
+    this.db.push(vendedor);
 
     return vendedor;
   }
 
-  getVendedores(): Vendedor[] {
-    return this.vendedores;
+  getVendedores(): IVendedor[] {
+    return this.db;
   }
-  getVendedorById(id: string): Vendedor {
-    const vendedor = this.vendedores.find((v) => v.id === id);
+  getVendedorById(id: string): IVendedor {
+    const vendedor = this.db.find((v) => v.id === id);
     if (!vendedor) {
       throw new NotFoundException(`Vendedor con id ${id} no encontrado`);
     }
     return vendedor;
   }
 
-  actualizarVendedor(id: string, vendedorEntity: VendedorEntity): Vendedor {
-    const index = this.vendedores.findIndex((v) => v.id === id);
+  actualizarVendedor(id: string, vendedorEntity: VendedorEntity): IVendedor {
+    const index = this.db.findIndex((v) => v.id === id);
     if (index === -1) {
       throw new NotFoundException(
         `No se encontró ningún vendedor con el id ${id}`,
@@ -48,20 +46,20 @@ export class VendedorService {
       ...auto,
       id: auto.id ? auto.id : uuid(),
     }));
-    const vendedor: Vendedor = {
+    const vendedor: IVendedor = {
       id,
       nombre: vendedorEntity.nombre,
       autos,
     };
 
-    this.vendedores[index] = vendedor;
+    this.db[index] = vendedor;
 
     return vendedor;
   }
   deleteVendedor(id: string): void {
-    const index = this.vendedores.findIndex((v) => v.id === id);
+    const index = this.db.findIndex((v) => v.id === id);
     if (index >= 0) {
-      this.vendedores.splice(index, 1);
+      this.db.splice(index, 1);
     }
   }
 }

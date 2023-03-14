@@ -9,7 +9,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { VendedorEntity } from 'src/persistence/entities';
-import { Vendedor } from '../interface/vendedor.interface';
+import { IVendedor } from '../interface/vendedor.interface';
 import { VendedorService } from '../service/vendedor.service';
 
 @Controller('vendedor')
@@ -17,16 +17,16 @@ export class VendedorController {
   constructor(private readonly vendedorService: VendedorService) {}
 
   @Post('crear')
-  create(@Body() vendedorEntity: VendedorEntity): Vendedor {
+  create(@Body() vendedorEntity: VendedorEntity): IVendedor {
     return this.vendedorService.createVendedor(vendedorEntity);
   }
 
   @Get()
-  findAll(): Vendedor[] {
+  findAll(): IVendedor[] {
     return this.vendedorService.getVendedores();
   }
   @Get(':id')
-  getVendedorById(@Param('id') id: string): Vendedor {
+  getVendedorById(@Param('id') id: string): IVendedor {
     const vendedor = this.vendedorService.getVendedorById(id);
     if (!vendedor) {
       throw new NotFoundException(`No se encontró un vendedor con id ${id}`);
@@ -37,7 +37,7 @@ export class VendedorController {
   actualizarVendedor(
     @Param('id') id: string,
     @Body() vendedorEntity: VendedorEntity,
-  ): Vendedor {
+  ): IVendedor {
     const vendedor = this.vendedorService.actualizarVendedor(
       id,
       vendedorEntity,

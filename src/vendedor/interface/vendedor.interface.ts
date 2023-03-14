@@ -1,6 +1,6 @@
 import { AutomovilEntity } from 'src/persistence/entities';
 
-export interface Vendedor {
+export interface IVendedor {
   id: string;
   nombre: string;
   autos: AutomovilEntity[];

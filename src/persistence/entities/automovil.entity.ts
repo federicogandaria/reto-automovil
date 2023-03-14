@@ -9,4 +9,6 @@ export class AutomovilEntity {
   vendedor: VendedorEntity;
   cliente?: ClienteEntity;
   auto?: AutomovilEntity;
+  nombre: string;
+  autosts: string;
 }
