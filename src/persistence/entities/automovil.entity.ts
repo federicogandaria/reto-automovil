@@ -6,6 +6,6 @@ export class AutomovilEntity {
   marca: string;
   modelo: string;
   año: number;
-  vendedor: VendedorEntity & { autos: AutomovilEntity[] };
+  vendedor?: VendedorEntity;
   cliente?: ClienteEntity;
 }

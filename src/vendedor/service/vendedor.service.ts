@@ -2,11 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { VendedorRepository } from 'src/persistence/repositories/base/repositories/vendedor.repository';
 import { VendedorEntity } from '../../persistence/entities/vendedor.entity';
 import { IVendedor } from '../interface/vendedor.interface';
+import { VendedorDto } from '../dto/vendedor.dto';
 @Injectable()
 export class VendedorService {
   constructor(private readonly vendedorRepository: VendedorRepository) {}
 
-  crearVendedor(vendedor: VendedorEntity): IVendedor {
+  crearVendedor(vendedor: VendedorDto): IVendedor {
     const vendedorEntity = new VendedorEntity();
     vendedorEntity.nombre = vendedor.nombre;
     vendedorEntity.autos = vendedor.autos;
@@ -20,13 +21,13 @@ export class VendedorService {
       autos: createdVendedor.autos,
     };
   }
-  obtenerVendedores(): VendedorEntity[] {
+  obtenerVendedores(): IVendedor[] {
     return this.vendedorRepository.findAll();
   }
-  buscarVendedorPorId(id: string): VendedorEntity {
+  buscarVendedorPorId(id: string): IVendedor {
     return this.vendedorRepository.findOneById(id);
   }
-  actualizarVendedor(id: string, vendedor: IVendedor): VendedorEntity {
+  actualizarVendedor(id: string, vendedor: VendedorDto): IVendedor {
     const vendedorEntity = new VendedorEntity();
     vendedorEntity.id = id;
     vendedorEntity.nombre = vendedor.nombre;

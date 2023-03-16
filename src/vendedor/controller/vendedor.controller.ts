@@ -7,21 +7,26 @@ import {
   Param,
   Post,
   Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { VendedorEntity } from 'src/persistence/entities';
 import { VendedorService } from '../service/vendedor.service';
+import { VendedorDto } from '../dto/vendedor.dto';
+import { IVendedor } from '../interface/vendedor.interface';
 
 @Controller('vendedor')
 export class VendedorController {
   constructor(private readonly vendedorService: VendedorService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post('crear')
-  crearVendedor(@Body() vendedor: VendedorEntity): VendedorEntity {
+  crearVendedor(@Body() vendedor: VendedorDto): IVendedor {
     return this.vendedorService.crearVendedor(vendedor);
   }
 
   @Get()
-  obtenerVendedores(): VendedorEntity[] {
+  obtenerVendedores(): IVendedor[] {
     return this.vendedorService.obtenerVendedores();
   }
 
@@ -32,11 +37,12 @@ export class VendedorController {
     return vendedor;
   }
 
+  @UsePipes(new ValidationPipe())
   @Put(':id')
   actualizarVendedor(
     @Param('id') id: string,
-    @Body() automovil: VendedorEntity,
-  ): VendedorEntity {
+    @Body() automovil: VendedorDto,
+  ): IVendedor {
     const vendedorActualizado = this.vendedorService.actualizarVendedor(
       id,
       automovil,

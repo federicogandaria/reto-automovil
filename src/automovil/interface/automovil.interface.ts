@@ -1,14 +1,10 @@
-import {
-  VendedorEntity,
-  ClienteEntity,
-  AutomovilEntity,
-} from 'src/persistence/entities';
+import { VendedorEntity, ClienteEntity } from 'src/persistence/entities';
 
 export interface IAutomovil {
   id: string;
   marca: string;
   modelo: string;
   año: number;
-  vendedor: VendedorEntity & { autos: AutomovilEntity[] };
+  vendedor?: VendedorEntity;
   cliente?: ClienteEntity;
 }
