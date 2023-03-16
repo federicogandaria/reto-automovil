@@ -4,8 +4,4 @@ export interface IVendedor {
   id: string;
   nombre: string;
   autos: AutomovilEntity[];
-  cochesVendidos?: {
-    id: string;
-    auto: AutomovilEntity;
-  }[];
 }

@@ -1,15 +1,14 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
+  Controller,
+  Delete,
+  Get,
   NotFoundException,
   Param,
+  Post,
   Put,
-  Delete,
 } from '@nestjs/common';
 import { VendedorEntity } from 'src/persistence/entities';
-import { IVendedor } from '../interface/vendedor.interface';
 import { VendedorService } from '../service/vendedor.service';
 
 @Controller('vendedor')
@@ -17,40 +16,42 @@ export class VendedorController {
   constructor(private readonly vendedorService: VendedorService) {}
 
   @Post('crear')
-  create(@Body() vendedorEntity: VendedorEntity): IVendedor {
-    return this.vendedorService.createVendedor(vendedorEntity);
+  crearVendedor(@Body() vendedor: VendedorEntity): VendedorEntity {
+    return this.vendedorService.crearVendedor(vendedor);
   }
 
   @Get()
-  findAll(): IVendedor[] {
-    return this.vendedorService.getVendedores();
+  obtenerVendedores(): VendedorEntity[] {
+    return this.vendedorService.obtenerVendedores();
   }
+
   @Get(':id')
-  getVendedorById(@Param('id') id: string): IVendedor {
-    const vendedor = this.vendedorService.getVendedorById(id);
-    if (!vendedor) {
-      throw new NotFoundException(`No se encontró un vendedor con id ${id}`);
-    }
+  obtenerVendedorPorId(@Param('id') id: string): VendedorEntity {
+    const vendedor = this.vendedorService.buscarVendedorPorId(id);
+    if (!vendedor) throw new NotFoundException('Elemento no encontrado');
     return vendedor;
   }
+
   @Put(':id')
   actualizarVendedor(
     @Param('id') id: string,
-    @Body() vendedorEntity: VendedorEntity,
-  ): IVendedor {
-    const vendedor = this.vendedorService.actualizarVendedor(
+    @Body() automovil: VendedorEntity,
+  ): VendedorEntity {
+    const vendedorActualizado = this.vendedorService.actualizarVendedor(
       id,
-      vendedorEntity,
+      automovil,
     );
-    if (!vendedor) {
-      throw new NotFoundException(
-        `No se encontró ningún vendedor con el id ${id}`,
-      );
-    }
-    return vendedor;
+    if (!vendedorActualizado)
+      throw new NotFoundException('Elemento no encontrado');
+    return vendedorActualizado;
   }
+
   @Delete(':id')
-  deleteVendedor(@Param('id') id: string): void {
-    return this.vendedorService.deleteVendedor(id);
+  eliminarVendedor(@Param('id') id: string): string {
+    const mensaje = this.vendedorService.borrarVendedor(id);
+    if (mensaje === 'ID de vendedor no encontrado') {
+      throw new NotFoundException(mensaje);
+    }
+    return 'Vendedor eliminado correctamente';
   }
 }

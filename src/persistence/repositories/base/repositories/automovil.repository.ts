@@ -26,11 +26,13 @@ export class AutomovilRepository
     return this.db[indexCurrentEntity];
   }
 
-  delete(id: string): void {
-    this.db.splice(
-      this.db.findIndex((item) => item.id === id),
-      1,
-    );
+  delete(id: string): boolean {
+    const index = this.db.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      this.db.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 
   findAll(): AutomovilEntity[] {
