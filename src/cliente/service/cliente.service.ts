@@ -2,11 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ClienteEntity } from '../../persistence/entities/cliente.entity';
 import { ClienteRepository } from '../../persistence/repositories/base/repositories/cliente.repository';
 import { ICliente } from '../interface/cliente.interface';
+import { CrearClienteDto } from '../dto/crearCliente.dto';
+import { ActualizarClienteDto } from '../dto/actualizarCliente.dto';
 @Injectable()
 export class ClienteService {
   constructor(private readonly clienteRepository: ClienteRepository) {}
 
-  crearCliente(cliente: ClienteEntity): ICliente {
+  crearCliente(cliente: CrearClienteDto): ICliente {
     const clienteEntity = new ClienteEntity();
     clienteEntity.nombre = cliente.nombre;
     clienteEntity.automovil = cliente.automovil;
@@ -25,7 +27,7 @@ export class ClienteService {
   buscarClientePorId(id: string): ClienteEntity {
     return this.clienteRepository.findOneById(id);
   }
-  actualizarCliente(id: string, cliente: ICliente): ClienteEntity {
+  actualizarCliente(id: string, cliente: ActualizarClienteDto): ICliente {
     const clienteEntity = new ClienteEntity();
     clienteEntity.id = id;
     clienteEntity.nombre = cliente.nombre;
