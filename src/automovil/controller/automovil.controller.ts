@@ -7,16 +7,21 @@ import {
   Param,
   Post,
   Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AutomovilEntity } from 'src/persistence/entities';
 import { AutomovilService } from '../service/automovil.service';
+import { AutomovilDto } from '../dto/automovil.dto';
+import { IAutomovil } from '../interface/automovil.interface';
 
 @Controller('automovil')
 export class AutomovilController {
   constructor(private readonly automovilService: AutomovilService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post('crear')
-  crearAutomovil(@Body() automovil: AutomovilEntity): AutomovilEntity {
+  crearAutomovil(@Body() automovil: AutomovilDto): IAutomovil {
     return this.automovilService.crearAutomovil(automovil);
   }
 
@@ -32,11 +37,12 @@ export class AutomovilController {
     return automovil;
   }
 
+  @UsePipes(new ValidationPipe())
   @Put(':id')
   actualizarAutomovil(
     @Param('id') id: string,
-    @Body() automovil: AutomovilEntity,
-  ): AutomovilEntity {
+    @Body() automovil: AutomovilDto,
+  ): IAutomovil {
     const automovilActualizado = this.automovilService.actualizarAutomovil(
       id,
       automovil,

@@ -2,11 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { AutomovilEntity } from 'src/persistence/entities';
 import { AutomovilRepository } from 'src/persistence/repositories/base/repositories/automovil.repository';
 import { IAutomovil } from '../interface/automovil.interface';
+import { AutomovilDto } from '../dto/automovil.dto';
 @Injectable()
 export class AutomovilService {
   constructor(private readonly automovilRepository: AutomovilRepository) {}
 
-  crearAutomovil(automovil: IAutomovil): IAutomovil {
+  crearAutomovil(automovil: AutomovilDto): IAutomovil {
     const automovilEntity = new AutomovilEntity();
     automovilEntity.marca = automovil.marca;
     automovilEntity.modelo = automovil.modelo;
@@ -32,7 +33,7 @@ export class AutomovilService {
   buscarAutomovilPorId(id: string): AutomovilEntity {
     return this.automovilRepository.findOneById(id);
   }
-  actualizarAutomovil(id: string, automovil: IAutomovil): AutomovilEntity {
+  actualizarAutomovil(id: string, automovil: AutomovilDto): AutomovilEntity {
     const automovilEntity = new AutomovilEntity();
     automovilEntity.id = id;
     automovilEntity.marca = automovil.marca;
