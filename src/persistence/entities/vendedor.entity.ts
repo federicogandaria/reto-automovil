@@ -4,5 +4,5 @@ import { AutomovilEntity } from './automovil.entity';
 export class VendedorEntity {
   id = uuid();
   nombre: string;
-  autos?: AutomovilEntity[];
+  cochesVendidos?: AutomovilEntity[] = [];
 }

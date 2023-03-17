@@ -29,5 +29,5 @@ export class VendedorDto {
       'Cada objeto de la matriz de autos debe ser una instancia válida de AutomovilDto',
   })
   @Type(() => AutomovilDto)
-  autos?: AutomovilDto[];
+  cochesVendidos?: AutomovilDto[];
 }
