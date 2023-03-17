@@ -27,4 +27,6 @@ export class ActualizarClienteDto {
   })
   @Type(() => AutomovilEntity)
   automovil?: AutomovilEntity;
+
+  cocheComprado: AutomovilEntity[];
 }

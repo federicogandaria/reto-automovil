@@ -61,4 +61,20 @@ export class ClienteController {
     }
     return 'Cliente eliminado correctamente';
   }
+  @Put(':idCliente/asignar-auto/:idAuto/:idVendedor')
+  asignarAutoComprado(
+    @Param('idCliente') idCliente: string,
+    @Param('idAuto') idAuto: string,
+    @Param('idVendedor') idVendedor: string,
+  ): ICliente {
+    const clienteActualizado = this.clienteService.asignarAutoComprado(
+      idCliente,
+      idAuto,
+      idVendedor,
+    );
+    if (!clienteActualizado) {
+      throw new NotFoundException(`Cliente con id ${idCliente} no encontrado`);
+    }
+    return clienteActualizado;
+  }
 }

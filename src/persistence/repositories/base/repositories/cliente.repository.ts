@@ -44,4 +44,13 @@ export class ClienteRepository
     if (currentEntity) return currentEntity;
     else throw new NotFoundException('Elemento no encontrado');
   }
+  findByAutomovil(automovilId: string): ClienteEntity | undefined {
+    const clientesConAutomovil = this.db.filter((cliente) => {
+      if (cliente.automovil) {
+        return cliente.automovil.id === automovilId;
+      }
+      return false;
+    });
+    return clientesConAutomovil[0];
+  }
 }

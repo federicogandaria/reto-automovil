@@ -4,4 +4,6 @@ export interface ICliente {
   id: string;
   nombre: string;
   automovil?: AutomovilEntity;
+  vendedorId?: string;
+  cocheComprado: AutomovilEntity[];
 }
